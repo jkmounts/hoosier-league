@@ -10,7 +10,16 @@ export default {
   name: 'App',
   components: {
     HelloWorld
-  }
+  },
+  computed: {
+    standings() {
+      return this.$store.getters.standings; 
+    },
+  },
+  created () {
+    this.$store.dispatch('fetchLeagueInfo');
+    this.$store.dispatch('fetchMatchupScores');
+  },
 }
 </script>
 
