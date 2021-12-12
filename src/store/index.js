@@ -108,6 +108,15 @@ export default createStore({
         })
       })
       return records;
+    },
+    overallRecords: (state, getters) => {
+      let overallRecords = getters.h2hRecords;
+      getters.topHalfRecords.forEach((record) => {
+        let index = overallRecords.findIndex(team => team.id === record.id );
+        overallRecords[index].wins += record.wins;
+        overallRecords[index].losses += record.losses;
+      });
+      return overallRecords.sort((a, b) => b.wins - a.wins);
     }
   },
   modules: {

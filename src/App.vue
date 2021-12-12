@@ -1,19 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Standings />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Standings from './components/Standings.vue';
+import League from './models/League.js';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Standings,
   },
   computed: {
     standings() {
-      return this.$store.getters.standings; 
+      return this.$store.getters.standings
     },
   },
   created () {
