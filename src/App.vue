@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import Standings from './components/Standings.vue';
-import League from './models/League.js';
+import Standings from './components/Standings.vue'
 
 export default {
   name: 'App',
@@ -12,9 +11,6 @@ export default {
     Standings,
   },
   computed: {
-    standings() {
-      return this.$store.getters.standings
-    },
   },
   created () {
     this.$store.dispatch('fetchLeagueInfo');
@@ -24,12 +20,17 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap');
+body {
+    background: #EDEBEB; 
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background: #EDEBEB;
 }
 </style>
