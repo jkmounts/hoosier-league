@@ -18,8 +18,8 @@
   export default {
     name: 'Standings',
     computed: {
-      standings() {
-        return this.$store.getters.overallRecords; 
+      teams() {
+        return this.$store.state.league.teams; 
       }
     },
     methods: {

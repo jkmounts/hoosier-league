@@ -1,20 +1,30 @@
 <template>
-  <Standings />
+  <div>
+    <Standings />
+  </div>
 </template>
 
 <script>
+import League from './models/League';
 import Standings from './components/Standings.vue'
 
 export default {
   name: 'App',
   components: {
-    Standings,
+    Standings
+  },
+  data() {
+    return {
+      league: {},
+    }
   },
   computed: {
   },
   created () {
-    this.$store.dispatch('fetchLeagueInfo');
-    this.$store.dispatch('fetchMatchupScores');
+    this.$store.dispatch('fetchLeagueInfo')
+      .then(data => this.$store.commit('setLeague', new League(data)));
+  },
+  methods: {
   },
 }
 </script>
