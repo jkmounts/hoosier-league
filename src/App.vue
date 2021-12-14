@@ -1,17 +1,20 @@
 <template>
   <div>
     <Standings />
+    <Playoffs />
   </div>
 </template>
 
 <script>
 import League from './models/League';
-import Standings from './components/Standings.vue'
+import Standings from './components/Standings.vue';
+import Playoffs from './components/Playoffs.vue';
 
 export default {
   name: 'App',
   components: {
-    Standings
+    Standings,
+    Playoffs,
   },
   data() {
     return {

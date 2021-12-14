@@ -22,6 +22,7 @@ export default createStore({
     },
   },
   getters: {
+    teams: state => state.league.teams,
   },
   modules: {
   }
