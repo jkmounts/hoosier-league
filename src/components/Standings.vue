@@ -2,30 +2,28 @@
   <h2>Standings</h2>
   <div id="standings-table">
     <div class="row header">
-      <div class="team-name">Team</div>
-      <div class="wins">Wins</div>
-      <div class="losses">Losses</div>   
+      <div class="team-name heading">Team</div>
+      <div class="wins heading">Wins</div>
+      <div class="losses heading">Losses</div> 
+      <div class="bowl-points heading">Bowl Points</div>  
     </div>
     <div v-for="team in standings" class="row" :key="team.id">
-      <div class="team-name">{{getTeamName(team.id)}}</div>
-      <div class="wins">{{team.wins}}</div>
-      <div class="losses">{{team.losses}}</div>
+      <div class="team-name">{{team.name}}</div>
+      <div class="wins">{{team.records.overall.wins}}</div>
+      <div class="losses">{{team.records.overall.losses}}</div>
+      <div class="bowl-points">{{Math.round(team.bowlPoints)}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash';
+
   export default {
     name: 'Standings',
     computed: {
-      teams() {
-        return this.$store.state.league.teams; 
-      }
-    },
-    methods: {
-      getTeamName(teamId) {
-        let teamInfo = this.$store.state.leagueInfo.teams.find(team => team.id === teamId);
-        return `${teamInfo.location} ${teamInfo.nickname}`;
+      standings() {
+        return _.orderBy(this.$store.getters.teams, 'records.overall.wins', 'desc');
       }
     },
   }
@@ -58,8 +56,10 @@
     flex-basis: 50%;
     font-weight: 700;
   }
-  .row.header {
+  .header {
     font-weight: 700;
     background: none;
+    display: flex;
+    flex-flow: column no-wrap;
   }
 </style>

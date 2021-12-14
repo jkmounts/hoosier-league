@@ -6,40 +6,70 @@ export default class Team {
     this.name = `${team.location} ${team.nickname}`;
     this.abbrev = team.abbrev;
     this.owners = team.owners;
-    this.records = {h2h: {wins: 0, losses: 0}, topHalf: {wins:0, losses:0}};
     this.matchups = schedule.filter(matchup => matchup.home && matchup.away && (matchup.home.teamId === team.id || matchup.away.teamId === team.id) && matchup.matchupPeriodId < currentMatchupPeriod)
     .map(filteredMatchup => new TeamMatchup(team.id, filteredMatchup, weeklyRankings));
-    this.bowlPoints = 0;
-    this.addOver100BowlPoints();
-    this.addH2HRecord();
-    this.addTopHalfRecord(totalTeams);
+    this.bowlPoints = this.calculateBowlPoints();
+    this.records = {
+      h2h: this.getH2HRecord(),
+      topHalf: this.getTopHalfRecord(totalTeams),
+      overall: {wins: 0, losses: 0},
+    };
+    this.records.overall = this.getOverallRecord();
   }
-  addOver100BowlPoints() {
-    this.bowlPoints += this.matchups.reduce((accum, currentWeek) => {
+  calculateBowlPoints() {
+    return this.matchups.reduce((accum, currentWeek) => {
       if (currentWeek.pointsScored > 100) {
-        return accum + (currentWeek.pointsScored - 100);
-      } else {
-        return accum;
+        accum += (currentWeek.pointsScored - 100);
       }
+      if (currentWeek.ranking === 1) {
+        accum += 250;
+      }
+      if (currentWeek.ranking === 2) {
+        accum += 180;
+      }
+      if (currentWeek.ranking === 3) {
+        accum += 150;
+      }
+      if (currentWeek.ranking === 4) {
+        accum += 120;
+      }
+      if (currentWeek.ranking === 5) {
+        accum += 100;
+      }
+      if (currentWeek.ranking === 6) {
+        accum += 80;
+      }
+      if (currentWeek.ranking === 7) {
+        accum += 60;
+      }
+      if (currentWeek.ranking === 8) {
+        accum += 40;
+      }
+      if (currentWeek.ranking === 9) {
+        accum += 20;
+      }
+      if (currentWeek.ranking === 10) {
+        accum += 10;
+      }
+      return accum;
     }, 0)
   }
-  addH2HRecord() {
-    this.matchups.forEach(matchup => {
-      if (matchup.won) {
-        this.records.h2h.wins++;
-      }
-      else {
-        this.records.h2h.losses++;
-      }
-    });
+  getH2HRecord() {
+    return this.matchups.reduce((record, week) => {
+      week.won === true ? record.wins++ : record.losses++;
+      return record;
+    }, {wins: 0, losses: 0})
   }
-  addTopHalfRecord(totalTeams) {
-    this.matchups.forEach(matchup => {
-      if (matchup.ranking <= totalTeams / 2) {
-        this.records.topHalf.wins++
-      } else {
-        this.records.topHalf.losses++
-      }
-    })
+  getTopHalfRecord(totalTeams) {
+    return this.matchups.reduce((record, week) => {
+      week.ranking <= (totalTeams / 2) ? record.wins++ : record.losses++;
+      return record;
+    }, {wins: 0, losses: 0})
+  }
+  getOverallRecord() {
+    return {
+      wins: this.records.h2h.wins + this.records.topHalf.wins,
+      losses: this.records.h2h.losses + this.records.topHalf.losses,
+    }
   }
 }
