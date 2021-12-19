@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import 'normalize.css';
 import League from './models/League';
 import Standings from './components/Standings.vue';
 import Playoffs from './components/Playoffs.vue';
