@@ -8,6 +8,7 @@
         <hamburger />
       </nav>
     </header>
+    <NewsFeed />
     <Standings />
     <!-- <Playoffs /> -->
   </div>
@@ -18,6 +19,7 @@ import 'normalize.css';
 import hamburger from './components/hamburger.vue';
 import League from './models/League';
 import Standings from './components/Standings.vue';
+import NewsFeed from './components/NewsFeed.vue';
 // import Playoffs from './components/Playoffs.vue';
 
 export default {
@@ -25,6 +27,7 @@ export default {
   components: {
     hamburger,
     Standings,
+    NewsFeed,
     // Playoffs,
   },
   data() {
